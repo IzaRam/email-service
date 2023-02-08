@@ -1,5 +1,6 @@
 package com.iza.it.service;
 
+import com.iza.it.exception.EmailNotFoundException;
 import com.iza.it.model.Email;
 import com.iza.it.repository.MailRepository;
 import org.springframework.mail.SimpleMailMessage;
@@ -35,10 +36,21 @@ public class MailServiceImpExample implements MailService{
     @Override
     public boolean persistEmail(Email email) {
         try {
+            email.setTmst(System.currentTimeMillis());
             mailRepository.save(email);
             return true;
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public Iterable<Email> getEmailsByInterval(Long tmstBegin, Long tmstEnd) {
+        return mailRepository.findEmailByTmstInterval(tmstBegin, tmstEnd);
+    }
+
+    @Override
+    public Email getEmailById(Integer id) throws EmailNotFoundException {
+        return mailRepository.findById(id).orElseThrow(() -> new EmailNotFoundException("Email not found with id: " + id));
     }
 }

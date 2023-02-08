@@ -19,6 +19,9 @@ public class Email {
     @Column
     private String toClient;
 
+    @Column(nullable = true)
+    private Long tmst;
+
     public Email() { }
 
     public Email(String fromService, String message, String toClient) {
@@ -64,6 +67,14 @@ public class Email {
 
     public void setToClient(String toClient) {
         this.toClient = toClient;
+    }
+
+    public Long getTmst() {
+        return tmst;
+    }
+
+    public void setTmst(Long tmst) {
+        this.tmst = tmst;
     }
 
     @Override
